@@ -11,8 +11,8 @@ android {
     applicationId = "io.github.aikiovade.nightdimmer"
     minSdk = 26
     targetSdk = 36
-    versionCode = 2
-    versionName = "1.1.0"
+    versionCode = 3
+    versionName = "1.1.1"
   }
 
   // A release signing config is only registered when a keystore is available.

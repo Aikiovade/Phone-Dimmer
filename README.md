@@ -1,124 +1,128 @@
 # Night Dimmer
 
-An Android app that dims the screen **below the system minimum brightness** and
-adds a warm blue-light filter, so reading in the dark does not hurt your eyes.
+Android-приложение, которое затемняет экран **ниже системного минимума яркости** и добавляет
+тёплый фильтр синего света — чтобы читать в темноте и не резать глаза.
 
 [![CI](https://github.com/Aikiovade/Phone-Dimmer/actions/workflows/ci.yml/badge.svg)](https://github.com/Aikiovade/Phone-Dimmer/actions/workflows/ci.yml)
 
-## Features
+## Возможности
 
-| Feature | What it does |
+| Функция | Что делает |
 |---|---|
-| Extreme dimming | Draws a black overlay on top of everything, down to almost black. |
-| Blue-light filter | Amber overlay whose strength is configurable, independent of the dim level. |
-| Auto-dimming | Follows the ambient light sensor with hysteresis and smooth fades, so it does not flicker. |
-| Schedule | Turns the dimmer on and off at fixed times; windows may cross midnight (22:00 – 07:00). |
-| Quick settings tile | Toggle the dimmer from the notification shade. |
-| Deep black theme | Optional pure-black UI to avoid glare when the phone is used in the dark. |
-| Boot restore | After a reboot the dimmer and the next schedule alarm come back automatically. |
+| Экстремальное затемнение | Рисует чёрный слой поверх всего экрана — вплоть до почти полной темноты. |
+| Фильтр синего света | Янтарный слой с настраиваемой интенсивностью, независимой от уровня затемнения. |
+| Авто-регулировка | Следит за датчиком освещённости с гистерезисом и плавными переходами, поэтому не мигает. |
+| Расписание | Включает и выключает затемнение по времени; период может переходить через полночь (22:00 – 07:00). |
+| Плитка в шторке | Включение и выключение из быстрых настроек Android. |
+| Абсолютно чёрная тема | Опциональный чисто чёрный интерфейс, чтобы не слепить при использовании в темноте. |
+| Восстановление после перезагрузки | После ребута затемнение и следующий будильник расписания возвращаются сами. |
 
-The UI is English by default and Russian on Russian devices (`values-ru`).
+Интерфейс локализован: английский по умолчанию, русский на русскоязычных устройствах (`values-ru`).
 
-## Install
+## Установка
 
-Download the APK from the [Releases](https://github.com/Aikiovade/Phone-Dimmer/releases)
-page and open it on the device. Android will ask for the "Display over other
-apps" permission the first time the dimmer is switched on.
+1. Скачай APK со страницы [Releases](https://github.com/Aikiovade/Phone-Dimmer/releases).
+2. Открой файл на устройстве.
+3. При первом включении Android попросит разрешение «Поверх других приложений» — без него
+   слой затемнения не нарисуется.
 
-Requirements: Android 8.0 (API 26) or newer.
+Требования: Android 8.0 (API 26) или новее.
 
-## How it works
+## Как это устроено
 
-* **Dimming** – a `TYPE_APPLICATION_OVERLAY` window is drawn over the screen. A
-  system window can be darker than the brightness slider allows, which is what
-  makes "below minimum brightness" possible. Because it is an overlay, it does
-  not save battery on OLED panels; it reduces emitted light, not power draw.
-* **Auto-dimming** – lux values are mapped to five levels with a hysteresis band
-  around every threshold and exponential smoothing on the way out. See
-  `domain/AutoBrightnessPolicy.kt`.
-* **Schedule** – only one alarm is armed at a time: the next transition of the
-  window. When it fires, the receiver applies the change and arms the following
-  transition. See `domain/ScheduleCalculator.kt`.
+* **Затемнение.** Поверх экрана создаётся окно `TYPE_APPLICATION_OVERLAY`. Системное окно может
+  быть темнее, чем позволяет ползунок яркости, — именно это и даёт «ниже минимума». Важно понимать:
+  это затемнение изображения, а не аппаратной подсветки, поэтому на OLED-экранах оно не экономит
+  батарею, а только снижает свет, который попадает в глаза.
+* **Авто-регулировка.** Освещённость (люксы) переводится в один из пяти уровней: вокруг каждого
+  порога есть зона гистерезиса, а изменение выхода сглаживается, чтобы экран не дёргался на границе.
+  См. `domain/AutoBrightnessPolicy.kt`.
+* **Расписание.** В любой момент взведён ровно один будильник — следующее событие окна. Когда он
+  срабатывает, приёмник применяет изменение и ставит следующий будильник. См.
+  `domain/ScheduleCalculator.kt`.
+* **Фильтр синего света.** Отдельный слой поверх затемнения: убирает синий канал, оставляя красный и
+  зелёный, поэтому картинка становится тёплой, а не просто серой.
 
-### Permissions
+### Разрешения
 
-| Permission | Why |
+| Разрешение | Зачем |
 |---|---|
-| `SYSTEM_ALERT_WINDOW` | Draw the dimming overlay. Also exempts the app from Android 12+ background foreground-service restrictions. |
-| `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_SPECIAL_USE` | Keep the overlay alive with a visible notification. |
-| `POST_NOTIFICATIONS` | Show that notification on Android 13+. Requested the first time the dimmer is enabled. |
-| `SCHEDULE_EXACT_ALARM` | Fire the schedule on time. The app falls back to an inexact alarm when the user denies it and shows a hint. |
-| `RECEIVE_BOOT_COMPLETED` | Restore the dimmer and re-arm the schedule after a reboot. |
+| `SYSTEM_ALERT_WINDOW` | Рисовать слой затемнения. Оно же выводит приложение из-под ограничений Android 12+ на запуск foreground-сервиса из фона. |
+| `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_SPECIAL_USE` | Держать слой поверх экрана вместе с постоянным уведомлением. |
+| `POST_NOTIFICATIONS` | Показать это уведомление на Android 13+. Запрашивается при первом включении затемнения. |
+| `SCHEDULE_EXACT_ALARM` | Срабатывать по расписанию вовремя. Если пользователь запретил точные будильники, приложение уходит на неточный будильник и показывает подсказку в интерфейсе. |
+| `RECEIVE_BOOT_COMPLETED` | Вернуть затемнение и переставить будильник после перезагрузки. |
 
-The app has no `INTERNET` permission: nothing leaves the device and there is no
-telemetry. All settings live in a private `SharedPreferences` file.
+Разрешения `INTERNET` у приложения нет: наружу ничего не уходит, телеметрии нет. Все настройки
+лежат в приватном `SharedPreferences`.
 
-## Build from source
+## Сборка из исходников
 
 ```bash
-# requirements: JDK 17+ (JDK 21 recommended) and an Android SDK with API 36.1
-echo "sdk.dir=/path/to/Android/Sdk" > local.properties
+# нужно: JDK 17+ (рекомендуется 21) и Android SDK с платформой API 36.1
+echo "sdk.dir=/путь/до/Android/Sdk" > local.properties
 ./gradlew assembleDebug          # app/build/outputs/apk/debug/app-debug.apk
-./gradlew testDebugUnitTest      # 29 unit tests
+./gradlew testDebugUnitTest      # 29 юнит-тестов
 ./gradlew lintDebug              # Android lint
 ```
 
-The project uses Gradle 9.3.1 (via the wrapper), AGP 9.1.1, Kotlin 2.2.10 and
-the Compose BOM 2024.09.00. Those versions are pinned deliberately; the app is
-verified against them on CI.
+Проект собран на Gradle 9.3.1 (через wrapper), AGP 9.1.1, Kotlin 2.2.10 и Compose BOM 2024.09.00.
+Версии зафиксированы осознанно: именно на них приложение проверяется в CI.
 
-### Signed release builds
+### Подписанный релиз
 
-`assembleRelease` produces a minified APK. It is signed only when a keystore is
-available, otherwise it stays unsigned:
+`assembleRelease` собирает минифицированный APK. Подпись добавляется, только если доступен
+keystore, иначе APK остаётся неподписанным:
 
 ```bash
 export STORE_PASSWORD=...
 export KEY_ALIAS=upload
 export KEY_PASSWORD=...
-./gradlew assembleRelease        # uses ./release-keystore.jks
+./gradlew assembleRelease        # берёт ./release-keystore.jks
 ```
 
-For CI, add these repository secrets:
+Для CI добавь секреты репозитория:
 
-| Secret | Content |
+| Секрет | Значение |
 |---|---|
 | `RELEASE_KEYSTORE_BASE64` | `base64 -w0 release-keystore.jks` |
-| `STORE_PASSWORD` | keystore password |
-| `KEY_ALIAS` | key alias (`upload`) |
-| `KEY_PASSWORD` | key password |
+| `STORE_PASSWORD` | пароль хранилища |
+| `KEY_ALIAS` | алиас ключа (`upload`) |
+| `KEY_PASSWORD` | пароль ключа |
 
-Pushing a `v*` tag then publishes a GitHub release with the APK attached
-(`.github/workflows/release.yml`). Without the secrets the workflow attaches the
-installable debug APK instead.
+Пока секретов нет, в релиз попадает устанавливаемый debug-APK (16 МБ вместо ~1.1 МБ).
 
-Forgot to bump the version? Update `versionCode` / `versionName` in
-`app/build.gradle.kts` before tagging.
+### Как выпустить новую версию
 
-## Project layout
+1. Подними `versionCode` и `versionName` в `app/build.gradle.kts`.
+2. Поставь тег и отправь его: `git tag -a v1.1.1 -m "..." && git push origin v1.1.1`.
+3. Workflow `release.yml` соберёт APK и создаст GitHub Release с заметками из коммитов.
+
+## Структура проекта
 
 ```
 app/src/main/java/io/github/aikiovade/nightdimmer/
-├── MainActivity.kt              # Compose host, permission flows
-├── NightDimmerApp.kt            # process-scoped object graph
-├── data/                        # SettingsRepository + key/value persistence
-├── domain/                      # pure Kotlin: schedule, auto-brightness, overlay math
-├── service/                     # overlay service, tile, alarm scheduler, receiver
-└── ui/                          # ViewModel, Compose screen, theme
+├── MainActivity.kt          # хост Compose, работа с разрешениями
+├── NightDimmerApp.kt        # граф объектов на уровне процесса
+├── data/                    # SettingsRepository + хранилище ключ-значение
+├── domain/                  # чистый Kotlin: расписание, авто-яркость, математика слоёв
+├── service/                 # сервис оверлея, плитка, планировщик будильников, приёмник
+└── ui/                      # ViewModel, экран на Compose, тема
 ```
 
-The `domain` package has no Android imports, which is why the schedule and
-auto-dimming logic can be unit tested without an emulator.
+В пакете `domain` нет ни одной зависимости от Android, поэтому расписание и авто-яркость
+покрыты обычными юнит-тестами без эмулятора. Отчёт с доказательствами прогонов —
+`docs/testing/night-dimmer-refactor.tdd.md`.
 
-## Known limitations
+## Известные ограничения
 
-* The overlay dims the rendered image; it cannot lower the hardware backlight.
-* Dimming is applied to the primary display only.
-* Very dark levels make system dialogs hard to read; keep the level at a value
-  that still lets you hit "OK".
-* `SCHEDULE_EXACT_ALARM` is denied by default on Android 14+ for newly installed
-  apps unless the user allows it in the app settings; the UI warns about it.
+* Слой затемняет изображение и не может опустить аппаратную подсветку.
+* Затемнение применяется только к основному дисплею.
+* На очень тёмных уровнях системные диалоги становятся трудночитаемыми — держи уровень таким,
+  чтобы кнопка «ОК» ещё была различима.
+* На Android 14+ `SCHEDULE_EXACT_ALARM` по умолчанию запрещён для новых установок, пока
+  пользователь не включит его в настройках приложения; интерфейс об этом предупреждает.
 
-## License
+## Лицензия
 
 [MIT](LICENSE)
