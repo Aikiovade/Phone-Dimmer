@@ -1,18 +1,26 @@
 *.iml
+
+# Gradle
 .gradle
 .kotlin
+build/
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+
+# Android Studio / IntelliJ
+.idea/
 .DS_Store
-/build
-/captures
+captures/
 .externalNativeBuild
 .cxx
-local.properties
+
+# Signing material must never be committed
+*.jks
+*.keystore
+release-keystore.jks
+
+# Secrets
 .env
-debug.keystore
+
+# Build output that belongs in GitHub Releases, not in the repository
+*.apk
+*.aab

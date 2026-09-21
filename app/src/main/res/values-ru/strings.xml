@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Night Dimmer</string>
+
+    <string name="screen_dimmer_active">Затемнение включено</string>
+    <string name="screen_dimmer_inactive">Затемнение выключено</string>
+    <string name="current_dim_level">ТЕКУЩИЙ УРОВЕНЬ</string>
+    <string name="auto_dimming_active">АВТО-РЕГУЛИРОВКА ВКЛЮЧЕНА</string>
+    <string name="dim_level_slider">Уровень затемнения</string>
+    <string name="dim_level_min">МАКС. ЯРКОСТЬ</string>
+    <string name="dim_level_max">МАКС. ТЕМНОТА</string>
+
+    <string name="blue_light">Синий свет</string>
+    <string name="blue_light_filter">Фильтр синего света</string>
+    <string name="enable_filter">Включить фильтр</string>
+    <string name="intensity">Интенсивность: %1$d%%</string>
+
+    <string name="schedule">Расписание</string>
+    <string name="enable_schedule">Включить расписание</string>
+    <string name="start_time">Время включения</string>
+    <string name="end_time">Время выключения</string>
+    <string name="schedule_hint">Затемнение включается в указанное время и выключается в указанное время. Период может переходить через полночь, например 22:00 – 07:00.</string>
+    <string name="schedule_same_time">Время включения и выключения совпадают, поэтому расписание не работает.</string>
+
+    <string name="enable_dimmer">Включить затемнение</string>
+    <string name="enable_dimmer_summary">Яркость ниже системного минимума</string>
+    <string name="auto_dimming">Авто-регулировка</string>
+    <string name="auto_dimming_summary">Подстройка по датчику освещённости</string>
+
+    <string name="enabled">Включено</string>
+    <string name="disabled">Выключено</string>
+    <string name="settings">Настройки</string>
+    <string name="deep_black_theme">Абсолютно чёрная тема</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
+    <string name="close">Закрыть</string>
+
+    <string name="action_grant">Разрешить</string>
+    <string name="action_open_settings">Настройки</string>
+    <string name="warning_overlay_permission">Для затемнения нужно разрешение «Поверх других приложений».</string>
+    <string name="warning_start_blocked">Android заблокировал запуск в фоне. Откройте приложение и включите затемнение ещё раз.</string>
+    <string name="warning_exact_alarms">Точные будильники запрещены, поэтому расписание может сработать с задержкой.</string>
+    <string name="warning_no_light_sensor">В устройстве нет датчика освещённости, поэтому авто-регулировка не работает.</string>
+
+    <string name="notification_channel_name">Затемнение</string>
+    <string name="notification_channel_description">Показывает, что затемнение экрана работает</string>
+    <string name="notification_title">Затемнение включено</string>
+    <string name="notification_text">Нажмите, чтобы настроить, или выключите здесь</string>
+    <string name="notification_action_stop">Выключить</string>
+    <string name="notification_action_required_title">Night Dimmer требует внимания</string>
+    <string name="notification_overlay_failed">Не удалось нарисовать слой затемнения: нет разрешения «Поверх других приложений». Разрешите его и включите затемнение снова.</string>
+    <string name="notification_start_blocked">Android заблокировал запуск по расписанию. Откройте Night Dimmer и включите затемнение вручную.</string>
+
+    <string name="tile_label">Затемнение</string>
+</resources>

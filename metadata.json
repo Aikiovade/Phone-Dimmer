@@ -1,6 +1,0 @@
-{
-  "name": "Night Dimmer",
-  "description": "An app that dims the screen below system limits for comfortable night reading.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

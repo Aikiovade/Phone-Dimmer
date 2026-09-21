@@ -1,3 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Night Dimmer</string>
+
+    <string name="screen_dimmer_active">Screen dimmer active</string>
+    <string name="screen_dimmer_inactive">Screen dimmer inactive</string>
+    <string name="current_dim_level">CURRENT DIMMING LEVEL</string>
+    <string name="auto_dimming_active">AUTO DIMMING ACTIVE</string>
+    <string name="dim_level_slider">Dimming level</string>
+    <string name="dim_level_min">MIN</string>
+    <string name="dim_level_max">SUPER DARK</string>
+
+    <string name="blue_light">Blue light</string>
+    <string name="blue_light_filter">Blue light filter</string>
+    <string name="enable_filter">Enable filter</string>
+    <string name="intensity">Intensity: %1$d%%</string>
+
+    <string name="schedule">Auto schedule</string>
+    <string name="enable_schedule">Enable schedule</string>
+    <string name="start_time">Start time</string>
+    <string name="end_time">End time</string>
+    <string name="schedule_hint">The dimmer turns on at the start time and off at the end time. A window may cross midnight, for example 22:00 – 07:00.</string>
+    <string name="schedule_same_time">Start and end time are equal, so the schedule stays off.</string>
+
+    <string name="enable_dimmer">Enable dimmer</string>
+    <string name="enable_dimmer_summary">Dim below the minimum brightness</string>
+    <string name="auto_dimming">Auto-dimming</string>
+    <string name="auto_dimming_summary">Adjust based on the ambient light sensor</string>
+
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
+    <string name="settings">Settings</string>
+    <string name="deep_black_theme">Deep black theme</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+
+    <string name="action_grant">Grant</string>
+    <string name="action_open_settings">Open settings</string>
+    <string name="warning_overlay_permission">Night Dimmer needs the \"Display over other apps\" permission to draw the dimming layer.</string>
+    <string name="warning_start_blocked">Android blocked the background start. Open the app and turn the dimmer on again.</string>
+    <string name="warning_exact_alarms">Exact alarms are not allowed, so the schedule may start late.</string>
+    <string name="warning_no_light_sensor">This device has no ambient light sensor, so auto-dimming has no effect.</string>
+
+    <string name="notification_channel_name">Dimmer</string>
+    <string name="notification_channel_description">Shows that the screen dimmer is running</string>
+    <string name="notification_title">Screen dimmer active</string>
+    <string name="notification_text">Tap to adjust, or turn it off from here</string>
+    <string name="notification_action_stop">Turn off</string>
+    <string name="notification_action_required_title">Night Dimmer needs attention</string>
+    <string name="notification_overlay_failed">The dimming layer could not be drawn because the overlay permission is missing. Allow \"Display over other apps\" and turn the dimmer on again.</string>
+    <string name="notification_start_blocked">Android blocked the scheduled start. Open Night Dimmer to turn the dimmer on.</string>
+
+    <string name="tile_label">Dimmer</string>
 </resources>
