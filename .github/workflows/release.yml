@@ -65,7 +65,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          cp "${{ steps.apk.outputs.path }}" "${{ steps.apk.outputs.name }}"
           gh release create "${{ github.ref_name }}" \
-            "${{ steps.apk.outputs.path }}#${{ steps.apk.outputs.name }}" \
             --title "${{ github.ref_name }}" \
-            --generate-notes
+            --generate-notes \
+            || echo "Release already exists, updating its assets instead"
+          gh release upload "${{ github.ref_name }}" "${{ steps.apk.outputs.name }}" --clobber
