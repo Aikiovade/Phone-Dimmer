@@ -33,8 +33,10 @@ class DimmerTileService : TileService() {
         repository.update { it.copy(isEnabled = !isEnabled) }
         if (isEnabled) {
             DimmerServiceController.stop(this)
-        } else {
-            DimmerServiceController.start(this)
+        } else if (!DimmerServiceController.start(this)) {
+            // Android refused to start the service, so the tile must not claim
+            // that the dimmer is running.
+            repository.update { it.copy(isEnabled = false) }
         }
         syncTile()
     }
